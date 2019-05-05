@@ -21,7 +21,10 @@ public class DrawRegularPolygon {
         };
 
         Screen screen = new Screen(400, 400);
+        
+        Cartesian startPosition = screen.getBottomCenter();
+        startPosition.y -= 50;
 
-        turtle.run(screen, screen.getBottomCenter(), 90 + STEP_ANGLE / 2);
+        turtle.run(screen, startPosition, 90 + STEP_ANGLE / 2);
     }
 }
