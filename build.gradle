@@ -2,8 +2,9 @@
 subprojects {
     apply plugin: 'base'
 
-    // the projects exclude `report` is Java project.
-    if (project.name != 'report') {
+    // the projects exclude `markdown` is Java project,
+    // and versioned as v0.1.0.
+    if (project.name != 'markdown') {
         apply plugin: 'java'
 
         version = '0.1.0'
@@ -15,7 +16,7 @@ subprojects {
 
 // Main application satisfying the homework requirements.
 project(':app') {
-    // `app` has main class the entry point of application.
+    // `app` has main class the entry point of the application.
     apply plugin: 'application'
     mainClassName = 'app.DrawRegularPolygon'
 
@@ -40,3 +41,42 @@ project(':lib') {
 //      because whole things have done in the subprojects
 //      configuration of the root project. (see the top of
 //      this file.)
+
+// Interpolating the source codes into markdown to be converted pdf to submit.
+project(':markdown') {
+    // `markdown` has task that interpolating source codes into the template markdown.
+    // This task requires clean the project before running.
+    task generate(type: Copy, dependsOn: 'clean') {
+        // Set target derectory.
+        ext.targetDir = buildDir
+        into("$targetDir")
+
+        // Helper method to generate markdown code block.
+        ext.codeBlock = { type, path
+            -> """./$path
+
+```$type
+${ new File("$rootDir/$path").getText() }```
+"""
+        }
+
+        // Copy data under src/data.
+        from('src/data') {
+            into('data')
+        }
+
+        from('src/template.md') {
+            // Target file name.
+            rename {_ -> 'README.md'}
+
+            // Rule of interpolation.
+            expand (
+                codeBlock: ext.codeBlock,
+                javaCode: { subproject, pathUnderJavaMainSrc ->
+                    ext.codeBlock('java', "$subproject/src/main/java/$pathUnderJavaMainSrc")
+                },
+                dataFile: { path -> new File("$targetDir/data", path).getText() },
+            )
+        }
+    }
+}
