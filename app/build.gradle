@@ -1,6 +1,0 @@
-apply plugin: 'application'
-mainClassName = 'app.DrawRegularPolygon'
-
-dependencies {
-    compile project(':lib')
-}

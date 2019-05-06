@@ -1,5 +1,42 @@
+// -- common configuration
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'base'
 
-    version = '0.1.0'
+    // the projects exclude `report` is Java project.
+    if (project.name != 'report') {
+        apply plugin: 'java'
+
+        version = '0.1.0'
+    }
 }
+
+// -- subproject configuration and
+// definition of their dependencies
+
+// Main application satisfying the homework requirements.
+project(':app') {
+    // `app` has main class the entry point of application.
+    apply plugin: 'application'
+    mainClassName = 'app.DrawRegularPolygon'
+
+    // `app` depends on `lib`
+    dependencies {
+        compile project(':lib')
+    }
+}
+
+// Turtle graphics library used by `app`.
+project(':lib') {
+    // `lib` depends on `external`
+    dependencies {
+        compile project(':external')
+    }
+}
+
+// External library (tg) used as underfoot of `lib`.
+// project(':external')
+// note.
+//      Their is nothing to configure about `external`,
+//      because whole things have done in the subprojects
+//      configuration of the root project. (see the top of
+//      this file.)
