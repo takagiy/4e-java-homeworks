@@ -53,7 +53,7 @@ project(':markdown') {
 
         // Helper method to generate markdown code block.
         ext.codeBlock = { type, path
-            -> """./$path
+            -> """`./$path`
 
 ```$type
 ${ new File("$rootDir/$path").getText() }```
