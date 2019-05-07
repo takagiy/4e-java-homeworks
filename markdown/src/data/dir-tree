@@ -1,6 +1,5 @@
 .
 ├── app
-│   ├── build.gradle
 │   └── src
 │       └── main
 │           └── java
@@ -17,7 +16,6 @@
 │                   ├── TurtleFrame.java
 │                   └── TurtleGraphics.java
 ├── lib
-│   ├── build.gradle
 │   └── src
 │       └── main
 │           └── java
@@ -26,6 +24,12 @@
 │                       ├── Cartesian.java
 │                       ├── Screen.java
 │                       └── Turtle.java
+├── markdown
+│   └── src
+│       ├── data
+│       │   ├── dir-tree
+│       │   └── result.png
+│       └── template.md
 └── settings.gradle
 
-16 directories, 12 files
+19 directories, 13 files
